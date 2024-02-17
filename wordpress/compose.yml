@@ -1,6 +1,6 @@
 services:
   wordpress-service:
-    image: 6.4.3-php8.1-apache
+    image: 6.4.3-php8.1-apache # change it to fpm later
     container_name: wordpress-container
     restart: unless-stopped
     env_file:
