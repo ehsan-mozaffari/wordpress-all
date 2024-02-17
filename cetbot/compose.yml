@@ -1,0 +1,19 @@
+services:
+  certbot-service:
+    image: certbot/certbot:v2.9.0
+    container_name: certbot-container
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - certbot-etc-volume:/etc/letsencrypt
+      - certbot-www-html-volume:/var/www/html
+
+    command: 
+      - certonly --webroot --webroot-path=/var/www/html --email ${CERTBOT_EMAIL} --agree-tos -d ${CERTBOT_DOMAIN} -d www.${CERTBOT_DOMAIN}
+    
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+
+volumes:
+  certbot-etc-volume:
+  certbot-www-html-volume:

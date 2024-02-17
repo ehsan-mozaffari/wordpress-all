@@ -1,0 +1,15 @@
+services:
+  wordpress-service:
+    image: wordpress:latest
+    container_name: wordpress-container
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "8000:80"
+    volumes:
+      - wordpress-volume:/var/www/html
+
+
+volumes:
+  wordpress-volume:

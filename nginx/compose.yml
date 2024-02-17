@@ -1,0 +1,16 @@
+services:
+  nginx-service:
+    image: nginx:1.25.3-alpine3.18
+    container_name: nginx-container
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./conf.d:/etc/nginx/conf.d/
+      - nginx-html-shared-volume:/usr/share/nginx/html/
+
+volumes:
+  nginx-html-shared-volume:
