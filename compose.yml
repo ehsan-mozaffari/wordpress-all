@@ -49,15 +49,15 @@ services:
       - internal-network
       - external-network
 
-  certbot:
-    extends:
-      service: certbot-service
-      file: certbot/compose.yml
-    depends_on:
-      - wordpress
-    env_file: .env
-    volumes:
-      - wordpress-html-volume:/var/www/html # for certbot to access the wordpress html files
-    networks:
-      - internal-network
+  # certbot:
+  #   extends:
+  #     service: certbot-service
+  #     file: certbot/compose.yml
+  #   depends_on:
+  #     - wordpress
+  #   env_file: .env
+  #   volumes:
+  #     - wordpress-html-volume:/var/www/html # for certbot to access the wordpress html files
+  #   networks:
+  #     - internal-network
 
