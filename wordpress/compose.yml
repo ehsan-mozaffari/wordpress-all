@@ -1,6 +1,6 @@
 services:
   wordpress-service:
-    image: wordpress:latest
+    image: 6.4.3-php8.1-apache
     container_name: wordpress-container
     restart: unless-stopped
     env_file:
