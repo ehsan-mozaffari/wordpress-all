@@ -7,8 +7,8 @@ volumes:
   mysql-volume:
   nginx-html-shared-volume:
   wordpress-html-volume:
-  certbot-etc-volume:
-  certbot-www-html-volume:
+  wordpress-etc-apache2-volume:
+  certbot-etc-letsencrypt-volume:
   html-shared-volume: # use it --volumes-from nginx-service
 
 # Networks definition
@@ -43,21 +43,22 @@ services:
       - "443:443"
     env_file: .env
     volumes:
-      # - certbot-www-html-volume:/var/www/html
+      - certbot-etc-letsencrypt-volume:/etc/letsencrypt 
       - wordpress-html-volume:/var/www/html
     networks:
       - internal-network
       - external-network
 
-  # certbot:
-  #   extends:
-  #     service: certbot-service
-  #     file: certbot/compose.yml
-  #   depends_on:
-  #     - wordpress
-  #   env_file: .env
-  #   volumes:
-  #     - wordpress-html-volume:/var/www/html # for certbot to access the wordpress html files
-  #   networks:
-  #     - internal-network
+  certbot:
+    extends:
+      service: certbot-service
+      file: certbot/compose.yml
+    depends_on:
+      - wordpress
+    env_file: .env
+    volumes:
+      - wordpress-html-volume:/var/www/html # for certbot to access the wordpress html files
+      - wordpress-etc-apache2-volume:/etc/apache2 # for certbot to access the apache2 configuration files
+    networks:
+      - internal-network
 

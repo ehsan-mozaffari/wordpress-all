@@ -8,11 +8,8 @@ services:
     # Don't expose the port here. This is a template for this service.
     volumes:
       - wordpress-html-volume:/var/www/html
-    command: |
-      sh -c "snap install --classic certbot";
-      sh -c "ln -s /snap/bin/certbot /usr/bin/certbot";
-      sh -c "certbot --apache";
-      sh -c "while :; do sleep 24h & wait $${!}; certbot renew; done & apachectl -D FOREGROUND";
+      - wordpress-etc-apache2-volume:/etc/apache2
 
 volumes:
   wordpress-html-volume:
+  wordpress-etc-apache2-volume:
