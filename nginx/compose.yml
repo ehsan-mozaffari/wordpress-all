@@ -5,12 +5,12 @@ services:
     restart: unless-stopped
     env_file:
       - .env
-    ports:
-      - "80:80"
-      - "443:443"
+    # ports: # expose ports in the main compose file
+    #   - "80:80"
+    #   - "443:443"
     volumes:
       - ./conf.d:/etc/nginx/conf.d/
-      - nginx-html-shared-volume:/usr/share/nginx/html/
+      - nginx-html-shared-volume:/usr/share/nginx/html/ # this overwrites the default nginx html folder. So, no index.html to test
 
 volumes:
   nginx-html-shared-volume:

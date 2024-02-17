@@ -1,0 +1,20 @@
+services:
+  mysql-service:
+    image: "mysql:8.0.36-debian"
+    container_name: "mysql-container"
+    restart: unless-stopped
+    env_file:
+      - .env # See all the environment variables of postgres
+    # ports: # expose ports in the main compose file
+    #   - "3306:3306"
+    volumes:
+      - mysql-volume:/var/lib/mysql # persist data even if container shuts down
+    healthcheck:
+      test: [ "CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u root -p$MYSQL_ROOT_PASSWORD" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+
+volumes:
+  mysql-volume:
