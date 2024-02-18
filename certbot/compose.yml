@@ -11,7 +11,7 @@ services:
     volumes:
       - certbot-etc-letsencrypt-volume:/etc/letsencrypt
     command: 
-      - certbot certonly --non-interactive --no-eff-email --webroot --webroot-path=${CERTBOT_WEBROOT_PATH} --email ${CERTBOT_EMAIL} --agree-tos -d ${CERTBOT_DOMAIN} #-d www.${CERTBOT_DOMAIN}
+      - certbot certonly --non-interactive --no-eff-email --webroot --webroot-path=${CERTBOT_WEBROOT_PATH} --email ${CERTBOT_EMAIL} --agree-tos -d ${CERTBOT_DOMAIN} #-d *.${CERTBOT_DOMAIN}
     entrypoint: "/bin/ash -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
 
 volumes:
