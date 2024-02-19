@@ -1,3 +1,4 @@
 # wordpress-all
 
-This is an All In One Wordpress website with LEMP stack and docker compose.
+This is an All In One single standalone Wordpress docker compose.
+

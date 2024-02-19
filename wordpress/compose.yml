@@ -1,15 +1,27 @@
 services:
   wordpress-service:
-    image: wordpress:6.4.3-php8.2-apache # change it to fpm later
+    image: wordpress-apache:custom # TODO: change it to fpm and use nginx
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: wordpress-container
     restart: unless-stopped
     env_file:
       - .env
-    # Don't expose the port here. This is a template for this service.
+    command: >
+      /bin/bash -c "
+      certbot --apache --non-interactive --no-eff-email --agree-tos --email ${CERTBOT_EMAIL} --domain ${CERTBOT_DOMAIN} --domain test.${CERTBOT_DOMAIN_WWW} 
+      &&
+      apache2-foreground
+      && 
+      trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;
+      "
     volumes:
-      - wordpress-html-volume:/var/www/html
-      - wordpress-etc-apache2-volume:/etc/apache2
+      - wordpress-html-volume:/var/www/html/
+      - wordpress-etc-apache2-volume:/etc/apache2/
+      - wordpress-etc-letsencrypt-volume:/etc/letsencrypt/
 
 volumes:
   wordpress-html-volume:
   wordpress-etc-apache2-volume:
+  wordpress-etc-letsencrypt-volume:

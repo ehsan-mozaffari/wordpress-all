@@ -1,15 +1,12 @@
-# This file includes a Wordpress server and its dependencies on LEMP stack.
+# This file includes a Wordpress server and its dependencies.
 version: '3.8'
 
 # Volumes definition
 volumes:
-  postgres-volume:
   mysql-volume:
-  nginx-html-shared-volume:
   wordpress-html-volume:
   wordpress-etc-apache2-volume:
-  certbot-etc-letsencrypt-volume:
-  html-shared-volume: # use it --volumes-from nginx-service
+  wordpress-etc-letsencrypt-volume:
 
 # Networks definition
 networks:
@@ -24,7 +21,7 @@ networks:
 
 # Services definition
 services:
-  db:
+  mysql:
     extends:
       service: mysql-service
       file: mysql/compose.yml
@@ -37,28 +34,12 @@ services:
       service: wordpress-service
       file: wordpress/compose.yml
     depends_on:
-      - db
+      mysql:
+        condition: service_healthy
     ports:
       - "80:80"
-      - "8080:443"
+      - "443:443"
     env_file: .env
-    volumes:
-      - certbot-etc-letsencrypt-volume:/etc/letsencrypt 
-      - wordpress-html-volume:/var/www/html
     networks:
       - internal-network
       - external-network
-
-  certbot:
-    extends:
-      service: certbot-service
-      file: certbot/compose.yml
-    depends_on:
-      - wordpress
-    env_file: .env
-    volumes:
-      - wordpress-html-volume:/var/www/html # for certbot to access the wordpress html files
-      - wordpress-etc-apache2-volume:/etc/apache2 # for certbot to access the apache2 configuration files
-    networks:
-      - internal-network
-
