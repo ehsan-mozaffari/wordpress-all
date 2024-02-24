@@ -10,11 +10,11 @@ services:
       - .env
     command: >
       /bin/bash -c "
-      certbot --apache --non-interactive --no-eff-email --agree-tos --email ${CERTBOT_EMAIL} --domain ${CERTBOT_DOMAIN} --domain test.${CERTBOT_DOMAIN_WWW} 
+      certbot --apache --test-cert --redirect --non-interactive --keep-until-expiring --no-eff-email --agree-tos --email ${CERTBOT_EMAIL} --domain ${CERTBOT_DOMAIN}
       &&
       apache2-foreground
-      && 
-      trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;
+      &&
+      trap exit TERM; while true; do certbot renew; sleep 12h & wait $${!}; done
       "
     volumes:
       - wordpress-html-volume:/var/www/html/
