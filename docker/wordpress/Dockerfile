@@ -5,6 +5,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends\
   cron \
   && rm -rf /var/lib/apt/lists/*
 
+# Download and move and make it executable the wordpress cli to the container
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+RUN mv wp-cli.phar /usr/local/bin/wp
+RUN chmod +x /usr/local/bin/wp
+
 # COPY the sh file to the container
 COPY ./certbot/generate.sh /usr/local/bin/
 COPY ./certbot/renew.sh /usr/local/bin/
