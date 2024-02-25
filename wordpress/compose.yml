@@ -8,18 +8,10 @@ services:
     restart: unless-stopped
     env_file:
       - .env
-    command: >
-      /bin/bash -c "
-      certbot --apache --test-cert --redirect --non-interactive --keep-until-expiring --no-eff-email --agree-tos --email ${CERTBOT_EMAIL} --domain ${CERTBOT_DOMAIN}
-      &&
-      apache2-foreground
-      &&
-      trap exit TERM; while true; do certbot renew; sleep 12h & wait $${!}; done
-      "
-    volumes:
-      - wordpress-html-volume:/var/www/html/
-      - wordpress-etc-apache2-volume:/etc/apache2/
-      - wordpress-etc-letsencrypt-volume:/etc/letsencrypt/
+    # volumes:
+    #   - wordpress-html-volume:/var/www/html/
+    #   - wordpress-etc-apache2-volume:/etc/apache2/
+    #   - wordpress-etc-letsencrypt-volume:/etc/letsencrypt/
 
 volumes:
   wordpress-html-volume:
