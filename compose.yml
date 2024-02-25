@@ -24,7 +24,7 @@ services:
   mysql:
     extends:
       service: mysql-service
-      file: mysql/compose.yml
+      file: docker/mysql/compose.yml
     env_file: .env
     networks:
       - internal-network
@@ -32,7 +32,7 @@ services:
   wordpress:
     extends:
       service: wordpress-service
-      file: wordpress/compose.yml
+      file: docker/wordpress/compose.yml
     depends_on:
       mysql:
         condition: service_healthy
