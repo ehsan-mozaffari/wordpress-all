@@ -3,7 +3,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends\
   certbot \
   python3-certbot-apache \
   cron \
-  net-tools \
   && rm -rf /var/lib/apt/lists/*
 
 # COPY the sh file to the container

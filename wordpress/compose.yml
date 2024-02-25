@@ -8,10 +8,10 @@ services:
     restart: unless-stopped
     env_file:
       - .env
-    # volumes:
-    #   - wordpress-html-volume:/var/www/html/
-    #   - wordpress-etc-apache2-volume:/etc/apache2/
-    #   - wordpress-etc-letsencrypt-volume:/etc/letsencrypt/
+    volumes:
+      - wordpress-html-volume:/var/www/html/
+      - wordpress-etc-apache2-volume:/etc/apache2/
+      - wordpress-etc-letsencrypt-volume:/etc/letsencrypt/
 
 volumes:
   wordpress-html-volume:
